@@ -36,12 +36,13 @@ func loadEnv() {
 func serveapp() {
 	router := gin.Default()
 
+	publicRoutes := router.Group("/auth")
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
 
-	router.POST("/register", controllers.Register)
-	router.POST("/login", controllers.Login)
+	publicRoutes.POST("/register", controllers.Register)
+	publicRoutes.POST("/login", controllers.Login)
 
 	err := router.Run("localhost:3000")
 	if err != nil {
