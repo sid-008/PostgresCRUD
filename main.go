@@ -13,8 +13,17 @@ import (
 
 func loadDatabase() {
 	database.Connect()
-	database.Database.AutoMigrate(models.User{})
-	database.Database.AutoMigrate(models.Post{})
+
+	err := database.Database.AutoMigrate(models.User{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = database.Database.AutoMigrate(models.Post{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
 
 func loadEnv() {
@@ -24,19 +33,24 @@ func loadEnv() {
 	}
 }
 
-func main() {
-	loadEnv()
-	loadDatabase()
+func serveapp() {
 	router := gin.Default()
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
 
-	router.GET("/register", controllers.Register)
+	router.POST("/register", controllers.Register)
+	router.POST("/login", controllers.Login)
 
 	err := router.Run("localhost:3000")
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func main() {
+	loadEnv()
+	loadDatabase()
+	serveapp()
 }
