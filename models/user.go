@@ -47,3 +47,21 @@ func FindUserByUsername(username string) (User, error) { //search by username, q
 	}
 	return user, nil
 }
+
+func FindUserById(id uint) (User, error) {
+	var user User
+	err := database.Database.Preload("Posts").Where("ID=?", id).Find(&user).Error // eager loading, this populates the entries slice in the user struct
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
+}
+
+func (post *Post) Save() (*Post, error) {
+	err := database.Database.Create(&post).Error
+	if err != nil {
+		log.Fatal(err)
+		return &Post{}, err
+	}
+	return post, nil
+}
