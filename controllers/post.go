@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,4 +43,10 @@ func GetAllPosts(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": user.Posts})
+}
+
+func GetAllPostsAnon(c *gin.Context) {
+	posts := models.GetAll()
+	log.Println(posts)
+	c.JSON(http.StatusOK, gin.H{"data": posts})
 }

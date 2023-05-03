@@ -43,6 +43,7 @@ func serveapp() {
 
 	publicRoutes.POST("/register", controllers.Register)
 	publicRoutes.POST("/login", controllers.Login)
+	router.GET("/all", controllers.GetAllPostsAnon)
 
 	protectedRoutes.POST("/post", controllers.AddPost)
 	protectedRoutes.GET("/post", controllers.GetAllPosts)
