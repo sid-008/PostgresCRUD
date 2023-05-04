@@ -56,12 +56,3 @@ func FindUserById(id uint) (User, error) {
 	}
 	return user, nil
 }
-
-func (post *Post) Save() (*Post, error) {
-	err := database.Database.Create(&post).Error
-	if err != nil {
-		log.Fatal(err)
-		return &Post{}, err
-	}
-	return post, nil
-}
