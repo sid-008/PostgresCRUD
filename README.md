@@ -69,8 +69,7 @@ The cookie as of now is set and logout just invalidates the cookie.
 
 This was the simplest way to implement logout, something I had done at the very end when all
 the other routes were handled. JWT tokens are stateless and setting it as cookie makes sense 
-to be able to handle logout. Time crunches didn't allow for extensive testing with postman, most
-of the testing was done using curl from the terminal
+to be able to handle logout. Works as expected with postman
 
 # Version details
 - OS: 6.2.13-arch1-1 (arco linux)
