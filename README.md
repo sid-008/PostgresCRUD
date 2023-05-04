@@ -66,7 +66,7 @@ to be able to handle logout. Time crunches didn't allow for extensive testing wi
 of the testing was done using curl from the terminal
 
 # Version details
-OS: 6.2.13-arch1-1 (arco linux)
-Go: go1.20.3 linux/amd64
-PostgreSQL: 15.2
+- OS: 6.2.13-arch1-1 (arco linux)
+- Go: go1.20.3 linux/amd64
+- PostgreSQL: 15.2
 
