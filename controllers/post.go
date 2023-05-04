@@ -55,7 +55,7 @@ func UpdateOnePost(c *gin.Context) {
 
 	user, err := helper.CurrentUser(c) //auth to get the current user
 
-	if err != nil {
+	if err != nil { //this is the auth, tested with random jwt, does not work if invalid signature
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -66,7 +66,25 @@ func UpdateOnePost(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"updated": update})
 }
 
-func DeleteOnePost(c *gin.Context)
+func DeleteOnePost(c *gin.Context) {
+	var deleted models.Post
+	if err := c.ShouldBindJSON(&deleted); err != nil { // bind update request
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := helper.CurrentUser(c) //auth to get the current user
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	post := user.Posts
+
+	database.Database.Model(&post).Where("Title = ?", deleted.Title).Delete(&post) // this query deletes based on the requested title
+	// This is a soft delete, adding .Unscoped method will make it a hard delete
+	c.JSON(http.StatusOK, gin.H{"deleted": deleted})
+}
 
 func GetAllPostsAnon(c *gin.Context) {
 	posts := models.GetAll()
