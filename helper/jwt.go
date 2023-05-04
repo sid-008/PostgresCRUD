@@ -58,12 +58,12 @@ func getTokenFromRequest(c *gin.Context) string {
 	return ""
 }
 
-func CurrentUser(context *gin.Context) (models.User, error) {
-	err := ValidateJWT(context)
+func CurrentUser(c *gin.Context) (models.User, error) {
+	err := ValidateJWT(c)
 	if err != nil {
 		return models.User{}, err
 	}
-	token, _ := getToken(context)
+	token, _ := getToken(c)
 	claims, _ := token.Claims.(jwt.MapClaims)
 	userId := uint(claims["id"].(float64))
 
