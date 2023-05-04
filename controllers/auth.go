@@ -59,8 +59,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.SetCookie("jwt", jwt, 3600, "/", "localhost", false, true)
+	c.SetCookie("Bearer", jwt, 3600, "/", "localhost", false, true)
 	if err != nil {
 		log.Fatal(err)
 	}

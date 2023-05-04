@@ -3,6 +3,7 @@ package helper
 import (
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -50,8 +51,9 @@ func getToken(c *gin.Context) (*jwt.Token, error) {
 }
 
 func getTokenFromRequest(c *gin.Context) string {
-	bearerToken := c.Request.Header.Get("Authorization")
-	splitToken := strings.Split(bearerToken, " ")
+	bearerToken := c.Request.Header.Get("Cookie")
+	log.Println(bearerToken)
+	splitToken := strings.Split(bearerToken, "=")
 	if len(splitToken) == 2 {
 		return splitToken[1]
 	}
