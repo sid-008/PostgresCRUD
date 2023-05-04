@@ -18,6 +18,9 @@ TOKEN_TTL="2000"
 JWT_PRIVATE_KEY="SECRET_HERE"
 ```
 
+Generally its a good idea to not push any .env or .env.* files(these should be added to the gitignore), but for the sake of 
+the demo I have added a .env.example file for reference
+
 Then do:
 ```
 go run main.go
