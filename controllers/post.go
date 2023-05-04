@@ -61,8 +61,12 @@ func UpdateOnePost(c *gin.Context) {
 	}
 	post := user.Posts
 
-	database.Database.Model(&post).Where("Title = ?", update.Title).Update("Content", update.Content)
+	database.Database.Model(&post).Where("Title = ?", update.Title).Update("Content", update.Content) // this query updates based on the requested title
+	//TODO add method that will also update Title
+	c.JSON(http.StatusOK, gin.H{"updated": update})
 }
+
+func DeleteOnePost(c *gin.Context)
 
 func GetAllPostsAnon(c *gin.Context) {
 	posts := models.GetAll()
