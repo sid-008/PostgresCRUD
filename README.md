@@ -2,6 +2,8 @@
 
 This is a CRUD API in go with jwt authentication, it uses Postgres and GORM. 
 
+# Setting up locally
+
 To run this locally git clone the repository, add a .env file
 
 Here is an example .env file:
@@ -29,6 +31,8 @@ go run main.go
 This will run our server on localhost port 3000
 
 Note: change the .env file name in the loadEnv() function in main.go as needed.
+
+# The routes
 
 There are 3 auth routes in total:
 - /auth/register
