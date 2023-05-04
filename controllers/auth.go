@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -31,33 +32,45 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"user": savedUser})
 }
 
-func Login(context *gin.Context) {
+func Login(c *gin.Context) {
 	var input models.AuthenticationInput
 
-	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	user, err := models.FindUserByUsername(input.Username)
 
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	err = user.ValidatePassword(input.Password)
 
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	jwt, err := helper.GenJWT(user)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"jwt": jwt})
+	c.SetCookie("jwt", jwt, 3600, "/", "localhost", false, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"jwt": jwt})
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie("jwt", "", -1, "/", "localhost", false, true)
+
+	c.JSON(http.StatusOK, gin.H{"Status": "Logged out"})
+
 }

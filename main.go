@@ -35,15 +35,17 @@ func loadEnv() {
 
 func serveapp() {
 	router := gin.Default()
-	publicRoutes := router.Group("/auth")
+	authRoutes := router.Group("/auth")
 	protectedRoutes := router.Group("/api")
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
 
-	publicRoutes.POST("/register", controllers.Register)
-	publicRoutes.POST("/login", controllers.Login)
 	router.GET("/all", controllers.GetAllPostsAnon) //anon readers can access through this
+
+	authRoutes.POST("/register", controllers.Register)
+	authRoutes.POST("/login", controllers.Login)
+	authRoutes.POST("/logout", controllers.Logout)
 
 	protectedRoutes.POST("/post", controllers.AddPost)
 	protectedRoutes.GET("/post", controllers.GetAllPosts) //get all posts for currently logged in user
