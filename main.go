@@ -48,6 +48,7 @@ func serveapp() {
 	protectedRoutes.POST("/post", controllers.AddPost)
 	protectedRoutes.GET("/post", controllers.GetAllPosts) //get all posts for currently logged in user
 	protectedRoutes.PUT("/post", controllers.UpdateOnePost)
+	protectedRoutes.DELETE("/post", controllers.DeleteOnePost)
 
 	err := router.Run("localhost:3000")
 	if err != nil {
