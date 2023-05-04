@@ -43,10 +43,11 @@ func serveapp() {
 
 	publicRoutes.POST("/register", controllers.Register)
 	publicRoutes.POST("/login", controllers.Login)
-	router.GET("/all", controllers.GetAllPostsAnon)
+	router.GET("/all", controllers.GetAllPostsAnon) //anon readers can access through this
 
 	protectedRoutes.POST("/post", controllers.AddPost)
-	protectedRoutes.GET("/post", controllers.GetAllPosts)
+	protectedRoutes.GET("/post", controllers.GetAllPosts) //get all posts for currently logged in user
+	protectedRoutes.PUT("/post", controllers.UpdateOnePost)
 
 	err := router.Run("localhost:3000")
 	if err != nil {
